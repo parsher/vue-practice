@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        
+        <h1>Vue.js Component Fundamentals</h1>
+        <click-counter></click-counter>
+        <plan-picker></plan-picker>
+
+        <todo-item>
+            Celebrate
+        </todo-item>
+        <todo-item>
+            Buy bananas
+            <template #description>
+                Bananas are good for your health.
+            </template>
+            <template #button-text>
+                HoHo
+            </template>
+        </todo-item>
+
+        <page-layout>
+            <template #header>
+                <h1>here might be a page title</h1>
+            </template>            
+            <p>A paragraph for the main content.</p>
+            <template #footer>
+                <p>here's some contact info</p>
+            </template>
+        </page-layout>
+    </div>
+
+    <script type="text/x-template" id="page-layout-template">
+        <div class="container">
+            <header>
+                <slot name="header">
+                </slot>
+            </header>
+            <main>
+                <slot>
+                </slot>
+            </main>
+            <footer>
+                <slot name="footer">
+                </slot>
+            </footer>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="plan-picker-item-template">
+        <div class="plan"  @click="select" :class="{{'active-plan': isSelected}}">
+            <div class="description">
+                <span class="title">
+                    {{name}}
+                </span>
+            </div>
+        </div>
+    </script>
+    
+    <script type="text/x-template" id="plan-picker-template">
+        <div class="plans">
+            <plan-picker-item v-for="plan in plans" @select="selectPlan" :name="plan" :selected-plan="selectedPlan"></plan-picker-item>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="click-counter-template">
+        <button @click="count++">{{count}}</button>
+    </script>
+
+    <script type="text/x-template" id="todo-item-template">
+        <div>
+            <input type="checkbox" v-model="completed">
+            <span :class="{done: completed}">
+                <slot></slot>
+            </span>
+            <slot name="description">default</slot>
+            <button>
+                <slot name="button-text">Highlight</slot>
+            </button>
+        </div>
+    </script>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script src="app.js"></script>
+    <style>
+        .done {
+            color: green;
+            text-decoration: line-through;
+        }
+    </style>
+</body>
+</html>
